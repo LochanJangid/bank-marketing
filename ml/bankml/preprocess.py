@@ -4,7 +4,6 @@ import numpy as np
 import joblib
 
 from dataclasses import dataclass
-from data.download import download_data
 from sklearn.model_selection import train_test_split
 
 from ml.bankml.logger import logging
@@ -34,9 +33,6 @@ class Preprocess:
         self.config = PreprocessConfig()
 
     def load_data(self):
-
-        if (not os.path.isfile(self.config.X_RAW_PATH)) or (not os.path.isfile(self.config.y_RAW_PATH)):
-            download_data()
 
         X = pd.read_csv(self.config.X_RAW_PATH)
         y = pd.read_csv(self.config.y_RAW_PATH)
