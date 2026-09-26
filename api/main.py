@@ -1,8 +1,11 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 import joblib
 import json
 import pandas as pd
+from typing import Literal
 
 
 app = FastAPI()
@@ -16,23 +19,85 @@ with open("models/model_meta.json") as f:
 threshold = float(metadata["threshold"])
 
 class XData(BaseModel):
-    age: int
-    job: str
-    marital: str
-    education: str
-    default: str
-    balance: int
-    housing: str
-    loan: str
-    contact: str
-    day_of_week: int
-    month: str
-    duration: int
-    campaign: int
-    pdays: int
-    previous: int
-    poutcome: str
 
+    age: int = Field(gt=0)
+
+    job: Literal[
+        "blue-collar",
+        "management",
+        "technician",
+        "admin.",
+        "services",
+        "retired",
+        "self-employed",
+        "entrepreneur",
+        "unemployed",
+        "housemaid",
+        "student"
+    ] | None = None
+
+    marital: Literal[
+        "married",
+        "single",
+        "divorced",
+    ] | None = None
+
+    education: Literal[
+        "secondary",
+        "tertiary",
+        "primary",
+    ] | None = None
+
+    default: Literal[
+        "no",
+        "yes",
+    ] | None = None
+
+    balance: float
+
+    housing: Literal[
+        "yes",
+        "no",
+    ] | None = None
+
+    loan: Literal[
+        "no",
+        "yes",
+    ] | None = None
+
+    contact: Literal[
+        "cellular",
+        "telephone",
+    ] | None = None
+
+    day_of_week: int = Field(ge=1, le=31)
+
+    month: Literal[
+        "may",
+        "jul",
+        "aug",
+        "jun",
+        "nov",
+        "apr",
+        "feb",
+        "jan",
+        "oct",
+        "sep",
+        "mar",
+        "dec",
+    ] | None = None
+
+    campaign: int = Field(ge=1)
+
+    pdays: int = Field(ge=-1)
+
+    previous: int = Field(ge=0)
+
+    poutcome: Literal[
+        "failure",
+        "other",
+        "success",
+    ] | None = None
 
 @app.get("/")
 def root():
@@ -42,6 +107,25 @@ def root():
 @app.get("/health")
 def health():
     return {"msg": "i am fine bro :)"}
+
+
+# Validate the request
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    errors = []
+    for error in exc.errors():
+        field = ".".join(str(x) for x in error["loc"][1:])
+
+        errors.append({"field": field, "message": error["msg"]})
+
+    return JSONResponse(
+        status_code=422,
+        content={
+            "error": "Invalid input",
+            "message": "Please check the input values.",
+            "details": errors
+        }
+    )
 
 
 @app.post("/predict")
