@@ -62,7 +62,7 @@ class Preprocess:
             "contact": "unknown",
             "day_of_week": "mode",
             "month": "mode",
-            "duration": "median",
+            # "duration": "median", # suuuuu.....
             "campaign": "median",
             "pdays": -1,
             "previous": 0,
