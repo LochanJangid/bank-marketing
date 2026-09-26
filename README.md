@@ -3,7 +3,10 @@
 An end-to-end machine learning application that predicts whether a customer is likely to subscribe to a term deposit.
 
 ### Live Demo
-[bank-marketing-alpha.vercel.app](https://bank-marketing-alpha.vercel.app/)
+[BankMarketer](https://bank-marketing-alpha.vercel.app/)
+
+### Case Study 
+[work/bank-marketing](https://lochan.vercel.app/work/bank-marketing)
 
 ### Architecture
 
