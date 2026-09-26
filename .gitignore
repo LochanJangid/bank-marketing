@@ -1,3 +1,91 @@
-.venv
-*.csv
+# =========================
+# Python
+# =========================
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.venv/
+venv/
+env/
+ENV/
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Data
+# =========================
+data/raw/
+data/processed/
+
+# =========================
+# ML / Experiments
+# =========================
+mlruns/
+mlartifacts/
+logs/
+
+# =========================
+# Model artifacts
+# =========================
+# Uncomment if models are too large for GitHub
+# models/*.joblib
+# models/*.pkl
+# models/*.skops
+
+# =========================
+# Python build/package files
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Node / Next.js
+# =========================
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Docker
+# =========================
+*.log
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
